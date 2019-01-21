@@ -54,7 +54,7 @@ module.exports.handler = asyncHandlerWrap(async function (event, context) {
                 if (payload.namespace === 'NEST' && (['DISCOUNT', 'HOME', 'MINDFULNESS', 'MINDFULNESSALBUM', 'NATURE', 'NATUREALBUM', 'WANDER', 'WANDERALBUM', 'SCENE', 'COUPON'].includes(payload.module))) {
                     // ${context.user && context.user.id}\t${context.udid}\t${context.clientIp}\t${context.operationName}\t${resolveInfo.fieldName}\t${JSON.stringify(data)}
                     normalRecord.push({
-                        timestamp: payload.timestamp,
+                        timestamp: parseInt(payload.timestamp),
                         server: payload.server,
                         namespace: payload.namespace,
                         module: payload.module,
@@ -70,7 +70,7 @@ module.exports.handler = asyncHandlerWrap(async function (event, context) {
                     // ${context.user && context.user.id}\t${context.udid}\t${context.clientIp}\t${context.operationName}\t${resolveInfo.fieldName}\t${JSON.stringify(data)}
                     if (payload.__column9__ === 'changeBalanceByAdmin') {
                         normalRecord.push({
-                            timestamp: payload.timestamp,
+                            timestamp: parseInt(payload.timestamp),
                             server: payload.server,
                             namespace: payload.namespace,
                             module: payload.module,
@@ -81,9 +81,24 @@ module.exports.handler = asyncHandlerWrap(async function (event, context) {
                             fieldName: payload.__column9__,
                             other: payload.__column10__,
                         })
+                    } else if (payload.__column9__ === 'loginBySMSCode' || payload.__column9__ === 'loginByMobileAndPassword') {
+                        let other = JSON.parse(payload.__column10__);
+                        normalRecord.push({
+                            timestamp: parseInt(payload.timestamp),
+                            server: payload.server,
+                            namespace: payload.namespace,
+                            module: payload.module,
+                            mobile: payload.__column5__,
+                            uuid: payload.__column6__,
+                            clientIp: payload.__column7__,
+                            operationName: payload.__column8__,
+                            fieldName: payload.__column9__,
+                            userId: other.userData || other.userData.id,
+                            other: payload.__column10__,
+                        })
                     } else {
                         userRecord.push({
-                            timestamp: payload.timestamp,
+                            timestamp: parseInt(payload.timestamp),
                             server: payload.server,
                             namespace: payload.namespace,
                             module: payload.module,
