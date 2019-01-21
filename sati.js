@@ -106,7 +106,7 @@ module.exports.handler = asyncHandlerWrap(async function (event, context) {
     const operationCol = db.get('operation');
     const operationResult = await operationCol.insert(normalRecord);
     console.log(`operation inserted ${operationResult.insertedCount}`);
-    const userStatCol = db.get('userStat');
-    const userStatResult = await userStatCol.insert(userRecord);
-    return `operation inserted ${userStatResult.insertedCount}`;
+    const userStatsCol = db.get('userStats');
+    const userStatsResult = await userStatsCol.insert(userRecord);
+    return `operation inserted ${userStatsResult.insertedCount}`;
 });
