@@ -83,7 +83,7 @@ module.exports.handler = asyncHandlerWrap(async function (event, context) {
                         })
                     } else if (payload.__column9__ === 'loginBySMSCode' || payload.__column9__ === 'loginByMobileAndPassword') {
                         let other = JSON.parse(payload.__column10__);
-                        normalRecord.push({
+                        userRecord.push({
                             timestamp: parseInt(payload.timestamp),
                             server: payload.server,
                             namespace: payload.namespace,
@@ -93,7 +93,7 @@ module.exports.handler = asyncHandlerWrap(async function (event, context) {
                             clientIp: payload.__column7__,
                             operationName: payload.__column8__,
                             fieldName: payload.__column9__,
-                            userId: other.userData || other.userData.id,
+                            userId: other.userData && other.userData.id,
                             other: payload.__column10__,
                         })
                     } else {
