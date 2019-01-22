@@ -96,6 +96,20 @@ module.exports.handler = asyncHandlerWrap(async function (event, context) {
                             userId: other.userData && other.userData.id,
                             other: payload.__column10__,
                         })
+                    } else if (payload.__column9__ === 'sendLoginVerificationCode' || payload.__column9__ === 'sendRegisterVerificationCode') {
+                        let other = JSON.parse(payload.__column10__);
+                        userRecord.push({
+                            timestamp: parseInt(payload.timestamp),
+                            server: payload.server,
+                            namespace: payload.namespace,
+                            module: payload.module,
+                            mobile: payload.__column5__,
+                            uuid: payload.__column6__,
+                            clientIp: payload.__column7__,
+                            operationName: payload.__column8__,
+                            fieldName: payload.__column9__,
+                            other: payload.__column10__,
+                        })
                     } else {
                         userRecord.push({
                             timestamp: parseInt(payload.timestamp),
